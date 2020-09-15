@@ -40,4 +40,10 @@ class Event
       item if data[:quantity] > 50 && data[:food_trucks].count > 1
     end.compact
   end
+
+  def sorted_item_list
+    total_inventory.map do |item, data|
+      item.name
+    end.sort
+  end
 end
