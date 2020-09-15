@@ -79,6 +79,39 @@ class EventTest < Minitest::Test
 
     assert_equal 148.75, @food_truck1.potential_revenue
     assert_equal 345.00, @food_truck2.potential_revenue
-    assert_equal 243.75, @food_truck3.potential_revenue    
+    assert_equal 243.75, @food_truck3.potential_revenue
+  end
+
+  def test_it_can_list_total_inventory
+    @food_truck1.stock(@item1, 35)
+    @food_truck1.stock(@item2, 7)
+    @food_truck2.stock(@item4, 50)
+    @food_truck2.stock(@item3, 25)
+    @food_truck3.stock(@item1, 65)
+    @food_truck3.stock(@item3, 10)
+
+    @event.add_food_truck(@food_truck1)
+    @event.add_food_truck(@food_truck2)
+    @event.add_food_truck(@food_truck3)
+
+    expected = {
+                @item1 => {
+                  quantity: 100,
+                  food_trucks: [@food_truck1, @food_truck3]
+                },
+                @item2 => {
+                  quantity: 7,
+                  food_trucks: [@food_truck1]
+                },
+                @item4 => {
+                  quantity: 50,
+                  food_trucks: [@food_truck2]
+                },
+                @item3 => {
+                  quantity: 35,
+                  food_trucks: [@food_truck2, @food_truck3]
+                }
+              }
+    assert_equal expected, @event.total_inventory
   end
 end
