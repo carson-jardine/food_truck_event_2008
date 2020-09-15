@@ -46,4 +46,8 @@ class Event
       item.name
     end.sort
   end
+
+  def date
+    Date.today
+  end
 end
