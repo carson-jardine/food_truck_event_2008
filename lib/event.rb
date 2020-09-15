@@ -19,6 +19,19 @@ class Event
   def food_trucks_that_sell(item)
     @food_trucks.find_all do |food_truck|
       food_truck.inventory.include?(item)
-    end 
+    end
+  end
+
+  def total_inventory
+    result = {}
+    @food_trucks.each do |food_truck|
+      food_truck.inventory.each do |item, quantity|
+        total_quantity = food_trucks_that_sell(item).sum do |truck_inventory|
+          truck_inventory.inventory[item]
+        end
+        result[item] = {quantity: total_quantity, food_trucks: food_trucks_that_sell(item)}
+      end
+    end
+    result 
   end
 end
