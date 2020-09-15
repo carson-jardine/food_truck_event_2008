@@ -62,29 +62,23 @@ class EventTest < Minitest::Test
 
     expected = [@food_truck1, @food_truck3]
     assert_equal expected, @event.food_trucks_that_sell(@item1)
+    assert_equal [@food_truck2], @event.food_trucks_that_sell(@item4)
+
+  end
+
+  def test_it_can_find_potential_revenue
+    @food_truck1.stock(@item1, 35)
+    @food_truck1.stock(@item2, 7)
+    @food_truck2.stock(@item4, 50)
+    @food_truck2.stock(@item3, 25)
+    @food_truck3.stock(@item1, 65)
+
+    @event.add_food_truck(@food_truck1)
+    @event.add_food_truck(@food_truck2)
+    @event.add_food_truck(@food_truck3)
+
+    assert_equal 148.75, @food_truck1.potential_revenue
+    assert_equal 345.00, @food_truck2.potential_revenue
+    assert_equal 243.75, @food_truck3.potential_revenue    
   end
 end
-
-# @food_truck1.stock(@item1, 35)
-# @food_truck1.stock(@item2, 7)
-# @food_truck2.stock(@item4, 50)
-# @food_truck2.stock(@item3, 25)
-# @food_truck3.stock(@item1, 65)
-
-# @event.food_truck_names
-#=> ["Rocky Mountain Pies", "Ba-Nom-a-Nom", "Palisade Peach Shack"]
-
-# @event.food_trucks_that_sell(@item1)
-#=> [#<FoodTruck:0x00007fe1348a1160...>, #<FoodTruck:0x00007fe134910650...>]
-
-# @event.food_trucks_that_sell(@item4)
-#=> [#<FoodTruck:0x00007fe1349bed40...>]
-
-# @food_truck1.potential_revenue
-#=> 148.75
-
-# @food_truck2.potential_revenue
-#=> 345.00
-
-# @food_truck3.potential_revenue
-#=> 243.75
