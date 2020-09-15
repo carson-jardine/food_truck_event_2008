@@ -32,6 +32,12 @@ class Event
         result[item] = {quantity: total_quantity, food_trucks: food_trucks_that_sell(item)}
       end
     end
-    result 
+    result
+  end
+
+  def overstocked_items
+    total_inventory.map do |item, data|
+      item if data[:quantity] > 50 && data[:food_trucks].count > 1
+    end.compact
   end
 end
